@@ -11,6 +11,7 @@ class GameRoom {
     this.battleLinePos = 50; // 50 is center. 0 is P1 edge, 100 is P2 edge
     this.startTime = 0;
     this.loopInterval = null;
+    this.countdownInterval = null;
   }
 
   addPlayer(socketId, name) {
@@ -63,12 +64,12 @@ class GameRoom {
     this.io.to(this.roomId).emit('room:ready', config);
 
     let count = 3;
-    const countInterval = setInterval(() => {
+    this.countdownInterval = setInterval(() => {
       if (count > 0) {
         this.io.to(this.roomId).emit('game:countdown', { count });
         count--;
       } else {
-        clearInterval(countInterval);
+        clearInterval(this.countdownInterval);
         this.io.to(this.roomId).emit('game:countdown', { count: 'BARK!' });
         this.startGame();
       }
@@ -92,6 +93,10 @@ class GameRoom {
     if (this.loopInterval) {
       clearInterval(this.loopInterval);
       this.loopInterval = null;
+    }
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+      this.countdownInterval = null;
     }
   }
 

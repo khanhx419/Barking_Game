@@ -150,8 +150,10 @@ io.on('connection', (socket) => {
     if (roomId) {
       const room = rooms.get(roomId);
       if (room && room.hasPlayer(socket.id)) {
+        room.stopLoop();
         room.removePlayer(socket.id);
         io.to(roomId).emit('player:disconnect', { message: 'Opponent left the game' });
+        room.phase = 'finished';
       }
     }
     broadcastRoomList();
