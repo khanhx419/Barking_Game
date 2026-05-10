@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none">
+  <!-- Corgi - short and stout -->
+  <!-- Body -->
+  <ellipse cx="100" cy="170" rx="58" ry="32" fill="#F5C16C" stroke="#fff" stroke-width="2"/>
+  <!-- Belly (white) -->
+  <ellipse cx="100" cy="178" rx="42" ry="20" fill="#FFF8E1"/>
+  <!-- Head -->
+  <ellipse cx="100" cy="95" rx="42" ry="38" fill="#E8A33D" stroke="#fff" stroke-width="2"/>
+  <!-- White face blaze -->
+  <path d="M100 70 Q115 85 110 125 Q100 130 90 125 Q85 85 100 70Z" fill="#FFF8E1"/>
+  <!-- Left ear (big!) -->
+  <path d="M60 82 L42 28 L86 65Z" fill="#D4893B" stroke="#fff" stroke-width="2"/>
+  <path d="M66 76 L50 35 L83 64Z" fill="#E8A33D"/>
+  <!-- Right ear (big!) -->
+  <path d="M140 82 L158 28 L114 65Z" fill="#D4893B" stroke="#fff" stroke-width="2"/>
+  <path d="M134 76 L150 35 L117 64Z" fill="#E8A33D"/>
+  <!-- Eyes -->
+  <ellipse cx="82" cy="90" rx="7" ry="8" fill="#3E2723"/>
+  <circle cx="84" cy="88" r="2.5" fill="#fff"/>
+  <ellipse cx="118" cy="90" rx="7" ry="8" fill="#3E2723"/>
+  <circle cx="120" cy="88" r="2.5" fill="#fff"/>
+  <!-- Nose -->
+  <ellipse cx="100" cy="108" rx="7" ry="5" fill="#3E2723"/>
+  <!-- Mouth -->
+  <path d="M93 113 Q100 118 107 113" stroke="#5D4037" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <line x1="100" y1="108" x2="100" y2="114" stroke="#5D4037" stroke-width="1.5"/>
+  <!-- Tongue (playful) -->
+  <ellipse cx="103" cy="119" rx="5" ry="7" fill="#E57373"/>
+  <!-- Stubby legs -->
+  <rect x="70" y="195" width="16" height="16" rx="8" fill="#F5C16C" stroke="#fff" stroke-width="1"/>
+  <rect x="114" y="195" width="16" height="16" rx="8" fill="#F5C16C" stroke="#fff" stroke-width="1"/>
+  <!-- Paws -->
+  <ellipse cx="78" cy="214" rx="10" ry="5" fill="#FFF8E1" stroke="#fff" stroke-width="1"/>
+  <ellipse cx="122" cy="214" rx="10" ry="5" fill="#FFF8E1" stroke="#fff" stroke-width="1"/>
+  <!-- Butt (corgi butt is famous) -->
+  <ellipse cx="155" cy="165" rx="12" ry="10" fill="#E8A33D"/>
+</svg>

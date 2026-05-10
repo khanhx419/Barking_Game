@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none">
+  <!-- Shiba Inu - the Doge -->
+  <!-- Body -->
+  <ellipse cx="100" cy="165" rx="50" ry="38" fill="#F4A460" stroke="#fff" stroke-width="2"/>
+  <!-- Belly -->
+  <ellipse cx="100" cy="172" rx="32" ry="24" fill="#FFECD2"/>
+  <!-- Head -->
+  <circle cx="100" cy="90" r="44" fill="#E8A644" stroke="#fff" stroke-width="2"/>
+  <!-- Face mask (white cheeks) -->
+  <path d="M100 68 Q125 88 115 120 Q100 135 85 120 Q75 88 100 68Z" fill="#FFF3E0"/>
+  <!-- Left ear -->
+  <path d="M62 75 L50 30 L85 62Z" fill="#D4893B" stroke="#fff" stroke-width="2"/>
+  <path d="M68 70 L58 38 L82 62Z" fill="#E8A644"/>
+  <!-- Right ear -->
+  <path d="M138 75 L150 30 L115 62Z" fill="#D4893B" stroke="#fff" stroke-width="2"/>
+  <path d="M132 70 L142 38 L118 62Z" fill="#E8A644"/>
+  <!-- Eyes -->
+  <ellipse cx="82" cy="88" rx="6" ry="7" fill="#3E2723"/>
+  <circle cx="83" cy="86" r="2" fill="#fff"/>
+  <ellipse cx="118" cy="88" rx="6" ry="7" fill="#3E2723"/>
+  <circle cx="119" cy="86" r="2" fill="#fff"/>
+  <!-- Eyebrows (Shiba characteristic) -->
+  <ellipse cx="82" cy="78" rx="4" ry="2" fill="#FFF3E0"/>
+  <ellipse cx="118" cy="78" rx="4" ry="2" fill="#FFF3E0"/>
+  <!-- Nose -->
+  <ellipse cx="100" cy="105" rx="7" ry="5" fill="#3E2723"/>
+  <!-- Mouth -->
+  <path d="M93 110 Q100 116 107 110" stroke="#5D4037" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <line x1="100" y1="105" x2="100" y2="111" stroke="#5D4037" stroke-width="1.5"/>
+  <!-- Cheek blush -->
+  <ellipse cx="72" cy="100" rx="8" ry="5" fill="#FFAB91" opacity="0.5"/>
+  <ellipse cx="128" cy="100" rx="8" ry="5" fill="#FFAB91" opacity="0.5"/>
+  <!-- Front legs -->
+  <rect x="78" y="195" width="12" height="22" rx="6" fill="#F4A460" stroke="#fff" stroke-width="1"/>
+  <rect x="110" y="195" width="12" height="22" rx="6" fill="#F4A460" stroke="#fff" stroke-width="1"/>
+  <!-- Paws -->
+  <ellipse cx="84" cy="218" rx="8" ry="5" fill="#FFECD2" stroke="#fff" stroke-width="1"/>
+  <ellipse cx="116" cy="218" rx="8" ry="5" fill="#FFECD2" stroke="#fff" stroke-width="1"/>
+  <!-- Curly tail -->
+  <path d="M150 155 Q175 140 170 118 Q168 108 160 115 Q165 130 148 148" fill="#E8A644" stroke="#fff" stroke-width="1.5"/>
+</svg>

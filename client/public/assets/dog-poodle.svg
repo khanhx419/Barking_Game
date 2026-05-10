@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none">
+  <!-- Poodle - fluffy and elegant -->
+  <!-- Body puff -->
+  <ellipse cx="100" cy="165" rx="45" ry="35" fill="#F8BBD0" stroke="#fff" stroke-width="2"/>
+  <!-- Extra puffs -->
+  <circle cx="75" cy="155" r="18" fill="#F48FB1"/>
+  <circle cx="125" cy="155" r="18" fill="#F48FB1"/>
+  <circle cx="100" cy="150" r="22" fill="#F8BBD0"/>
+  <!-- Head puff -->
+  <circle cx="100" cy="80" r="38" fill="#F48FB1" stroke="#fff" stroke-width="2"/>
+  <!-- Extra head fluff -->
+  <circle cx="80" cy="65" r="18" fill="#F8BBD0"/>
+  <circle cx="120" cy="65" r="18" fill="#F8BBD0"/>
+  <circle cx="100" cy="58" r="20" fill="#F48FB1"/>
+  <circle cx="90" cy="55" r="14" fill="#F8BBD0"/>
+  <circle cx="110" cy="55" r="14" fill="#F8BBD0"/>
+  <!-- Face -->
+  <ellipse cx="100" cy="88" rx="25" ry="22" fill="#FCE4EC"/>
+  <!-- Eyes -->
+  <ellipse cx="88" cy="84" rx="5" ry="6" fill="#311B92"/>
+  <circle cx="89" cy="82" r="2" fill="#fff"/>
+  <ellipse cx="112" cy="84" rx="5" ry="6" fill="#311B92"/>
+  <circle cx="113" cy="82" r="2" fill="#fff"/>
+  <!-- Eyelashes -->
+  <path d="M84 78 L82 74" stroke="#311B92" stroke-width="1" stroke-linecap="round"/>
+  <path d="M88 77 L87 73" stroke="#311B92" stroke-width="1" stroke-linecap="round"/>
+  <path d="M116 78 L118 74" stroke="#311B92" stroke-width="1" stroke-linecap="round"/>
+  <path d="M112 77 L113 73" stroke="#311B92" stroke-width="1" stroke-linecap="round"/>
+  <!-- Nose -->
+  <ellipse cx="100" cy="95" rx="5" ry="3.5" fill="#880E4F"/>
+  <!-- Mouth -->
+  <path d="M95 99 Q100 104 105 99" stroke="#880E4F" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <!-- Legs (thin with puffs) -->
+  <rect x="82" y="192" width="8" height="18" rx="4" fill="#F48FB1" stroke="#fff" stroke-width="1"/>
+  <rect x="110" y="192" width="8" height="18" rx="4" fill="#F48FB1" stroke="#fff" stroke-width="1"/>
+  <!-- Paw puffs -->
+  <circle cx="86" cy="214" r="8" fill="#F8BBD0" stroke="#fff" stroke-width="1"/>
+  <circle cx="114" cy="214" r="8" fill="#F8BBD0" stroke="#fff" stroke-width="1"/>
+  <!-- Tail puff -->
+  <circle cx="155" cy="135" r="12" fill="#F8BBD0" stroke="#fff" stroke-width="1.5"/>
+  <path d="M145 148 Q155 145 153 135" stroke="#F48FB1" stroke-width="3" fill="none"/>
+</svg>

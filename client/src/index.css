@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-arena-900 text-white overflow-hidden select-none m-0 p-0 font-sans;
+    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom scrollbar to hide it since it's a game */
+::-webkit-scrollbar {
+  display: none;
+}

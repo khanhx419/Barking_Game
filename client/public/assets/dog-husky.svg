@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none">
+  <!-- Husky - fluffy with pointy ears -->
+  <!-- Body -->
+  <ellipse cx="100" cy="165" rx="55" ry="40" fill="#B0BEC5" stroke="#fff" stroke-width="2"/>
+  <!-- Belly -->
+  <ellipse cx="100" cy="172" rx="35" ry="25" fill="#ECEFF1"/>
+  <!-- Head -->
+  <circle cx="100" cy="95" r="42" fill="#78909C" stroke="#fff" stroke-width="2"/>
+  <!-- Face mask -->
+  <path d="M100 75 Q115 95 105 120 Q100 125 95 120 Q85 95 100 75Z" fill="#ECEFF1"/>
+  <!-- Left ear -->
+  <path d="M65 80 L55 40 L82 70Z" fill="#546E7A" stroke="#fff" stroke-width="2"/>
+  <path d="M70 75 L62 48 L80 70Z" fill="#ECEFF1"/>
+  <!-- Right ear -->
+  <path d="M135 80 L145 40 L118 70Z" fill="#546E7A" stroke="#fff" stroke-width="2"/>
+  <path d="M130 75 L138 48 L120 70Z" fill="#ECEFF1"/>
+  <!-- Eyes -->
+  <ellipse cx="82" cy="90" rx="8" ry="9" fill="#E3F2FD"/>
+  <circle cx="84" cy="90" r="4" fill="#1565C0"/>
+  <circle cx="85" cy="88" r="1.5" fill="#fff"/>
+  <ellipse cx="118" cy="90" rx="8" ry="9" fill="#E3F2FD"/>
+  <circle cx="116" cy="90" r="4" fill="#1565C0"/>
+  <circle cx="117" cy="88" r="1.5" fill="#fff"/>
+  <!-- Nose -->
+  <ellipse cx="100" cy="108" rx="6" ry="4" fill="#37474F"/>
+  <!-- Mouth -->
+  <path d="M94 112 Q100 118 106 112" stroke="#37474F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Front legs -->
+  <rect x="75" y="195" width="14" height="22" rx="7" fill="#B0BEC5" stroke="#fff" stroke-width="1"/>
+  <rect x="111" y="195" width="14" height="22" rx="7" fill="#B0BEC5" stroke="#fff" stroke-width="1"/>
+  <!-- Paws -->
+  <ellipse cx="82" cy="218" rx="9" ry="5" fill="#ECEFF1" stroke="#fff" stroke-width="1"/>
+  <ellipse cx="118" cy="218" rx="9" ry="5" fill="#ECEFF1" stroke="#fff" stroke-width="1"/>
+  <!-- Tail -->
+  <path d="M155 155 Q175 130 165 110 Q160 105 158 115 Q162 130 148 150" fill="#78909C" stroke="#fff" stroke-width="1.5"/>
+</svg>
