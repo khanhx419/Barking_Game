@@ -31,7 +31,7 @@ export function useAudioAnalyser(isActive, onPowerUpdate) {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         audio: {
           echoCancellation: false,
-          autoGainControl: false,
+          autoGainControl: true,
           noiseSuppression: false,
         }, 
         video: false 
@@ -50,7 +50,9 @@ export function useAudioAnalyser(isActive, onPowerUpdate) {
       
       // Create gain node for mic amplification
       const gain = ctx.createGain();
-      gain.gain.value = DEFAULT_GAIN;
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const appliedGain = isMobile ? 12.0 : DEFAULT_GAIN;
+      gain.gain.value = appliedGain;
       gainNodeRef.current = gain;
       
       // Wire: Mic -> GainNode -> AnalyserNode
@@ -61,7 +63,7 @@ export function useAudioAnalyser(isActive, onPowerUpdate) {
       
       setHasPermission(true);
       setError(null);
-      console.log('Microphone started — gain:', DEFAULT_GAIN);
+      console.log('Microphone started — gain:', appliedGain);
     } catch (err) {
       console.error('Error accessing mic:', err);
       setError('Microphone access denied or unavailable.');
