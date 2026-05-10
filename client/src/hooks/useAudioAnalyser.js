@@ -16,6 +16,7 @@ export function useAudioAnalyser(isActive, onPowerUpdate) {
   
   const sustainRef = useRef(1.0);
   const onPowerUpdateRef = useRef(onPowerUpdate);
+  const lastEmitRef = useRef(0); // Throttle: track last emit timestamp
   
   // Keep callback ref fresh without re-creating the loop
   useEffect(() => {
@@ -107,8 +108,13 @@ export function useAudioAnalyser(isActive, onPowerUpdate) {
     const { sustain, totalPower } = calculatePower(volume, sustainRef.current);
     sustainRef.current = sustain;
 
+    // Always update local UI at full 60fps via the callback,
+    // but throttle the socket emit inside to max 20 times/sec (every 50ms)
+    const now = Date.now();
     if (onPowerUpdateRef.current) {
-      onPowerUpdateRef.current({ volume, sustain, totalPower });
+      const shouldEmit = (now - lastEmitRef.current) >= 50;
+      onPowerUpdateRef.current({ volume, sustain, totalPower }, shouldEmit);
+      if (shouldEmit) lastEmitRef.current = now;
     }
 
     requestRef.current = requestAnimationFrame(tick);

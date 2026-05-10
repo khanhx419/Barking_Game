@@ -8,11 +8,27 @@
     padding: 0;
     overflow: hidden;
     user-select: none;
+    -webkit-user-select: none;
     font-family: 'Outfit', system-ui, -apple-system, sans-serif;
     background-color: #F8F9FA;
     color: #2D3436;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Mobile touch fixes for interactive elements */
+  button, a, input, select, textarea, [role="button"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  input, textarea {
+    cursor: text;
+    user-select: text;
+    -webkit-user-select: text;
   }
 }
 

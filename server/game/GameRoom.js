@@ -149,10 +149,14 @@ class GameRoom {
     if (winnerIndex !== null) {
       this.endGame(winnerIndex, reason);
     } else {
-      // Broadcast state
+      // Broadcast state (include volume + sustain so clients can animate opponent)
       this.io.to(this.roomId).emit('game:state', {
         p1Power,
         p2Power,
+        p1Volume: this.players[0]?.powerData?.volume || 0,
+        p2Volume: this.players[1]?.powerData?.volume || 0,
+        p1Sustain: this.players[0]?.powerData?.sustain || 1.0,
+        p2Sustain: this.players[1]?.powerData?.sustain || 1.0,
         battleLinePos: this.battleLinePos,
         p1Scale,
         p2Scale,

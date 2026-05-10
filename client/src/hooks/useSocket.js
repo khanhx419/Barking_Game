@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = 'http://localhost:3001';
-
 export function useSocket() {
   const [isConnected, setIsConnected] = useState(false);
   const socketRef = useRef(null);
 
   useEffect(() => {
-    socketRef.current = io(SOCKET_URL);
+    // Connect to current origin — Vite proxy handles forwarding to backend
+    socketRef.current = io();
 
     socketRef.current.on('connect', () => {
       setIsConnected(true);

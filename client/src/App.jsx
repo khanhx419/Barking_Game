@@ -8,7 +8,7 @@ import { useAudioAnalyser } from './hooks/useAudioAnalyser';
 import { DOG_BREEDS } from './lib/dogBreeds';
 
 function App() {
-  const { gameState, createRoom, joinRoom, sendPower, resetToLobby } = useGameState();
+  const { gameState, publicRooms, createRoom, joinRoom, sendPower, leaveRoom, refreshRooms, resetToLobby } = useGameState();
   
   // Local audio state for UI rendering
   const [localAudio, setLocalAudio] = useState({ volume: 0, sustain: 1.0, totalPower: 0 });
@@ -29,10 +29,11 @@ function App() {
   const countdownRef = useRef(null);
 
   // Audio callback — updates both state (for UI) and ref (for game loop)
-  const handlePowerUpdate = useCallback((data) => {
+  // shouldEmit is throttled by useAudioAnalyser to max 20 times/sec
+  const handlePowerUpdate = useCallback((data, shouldEmit) => {
     localAudioRef.current = data;
     setLocalAudio(data);
-    if (!sandboxMode) {
+    if (!sandboxMode && shouldEmit) {
       sendPower(data);
     }
   }, [sandboxMode, sendPower]);
@@ -165,6 +166,17 @@ function App() {
     setLocalAudio({ volume: 0, sustain: 1.0, totalPower: 0 });
   }, []);
 
+  // -------- QUIT HANDLER --------
+  const handleQuit = useCallback(() => {
+    if (sandboxMode) {
+      exitSandbox();
+    } else {
+      leaveRoom();
+      resetToLobby();
+    }
+    stopMic();
+  }, [sandboxMode, exitSandbox, leaveRoom, resetToLobby, stopMic]);
+
   // -------- MULTIPLAYER HANDLERS --------
   const handleCreateRoom = useCallback((playerName, dogId) => {
     setMyDog(dogId);
@@ -211,6 +223,8 @@ function App() {
           onCreateRoom={handleCreateRoom}
           onJoinRoom={handleJoinRoom}
           onSandbox={startSandbox}
+          publicRooms={publicRooms}
+          onRefreshRooms={refreshRooms}
           error={gameState.error} 
         />
       )}
@@ -255,6 +269,7 @@ function App() {
           p1Dog={myDog}
           p2Dog={opponentDog}
           isSandbox={isSandbox}
+          onQuit={handleQuit}
         />
       )}
 

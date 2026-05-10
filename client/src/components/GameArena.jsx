@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { LogOut } from 'lucide-react';
 import BattleLine from './BattleLine';
 import DogAvatar from './DogAvatar';
 import PowerBar from './PowerBar';
@@ -19,13 +21,19 @@ export default function GameArena({
   p1Dog,
   p2Dog,
   isSandbox,
+  onQuit,
 }) {
+  const [showQuitConfirm, setShowQuitConfirm] = useState(false);
   const isP1 = gameState.playerIndex === 0;
 
   const visualP1Power = isP1 ? myTotalPower : p1Power;
   const visualP2Power = !isP1 ? myTotalPower : p2Power;
-  const p1Volume = isP1 ? myVolume : 0;
-  const p2Volume = !isP1 ? myVolume : 0;
+
+  // Use server-provided volume/sustain for opponent instead of hardcoding 0
+  const p1Volume = isP1 ? myVolume : (gameState.p1Volume || 0);
+  const p2Volume = !isP1 ? myVolume : (gameState.p2Volume || 0);
+  const p1Sustain = isP1 ? mySustain : (gameState.p1Sustain || 1.0);
+  const p2Sustain = !isP1 ? mySustain : (gameState.p2Sustain || 1.0);
 
   const p1Name = isP1 ? 'YOU' : (gameState.opponentName || 'BOT');
   const p2Name = !isP1 ? 'YOU' : (gameState.opponentName || 'BOT');
@@ -51,8 +59,8 @@ export default function GameArena({
           </div>
         )}
 
-        {/* Header: Names + Timer */}
-        <div className="flex justify-between items-center rounded-2xl p-3 md:p-4"
+        {/* Header: Names + Timer + Quit */}
+        <div className="flex justify-between items-center rounded-2xl p-3 md:p-4 relative"
           style={{ 
             backgroundColor: '#FFFFFF', 
             boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
@@ -68,6 +76,22 @@ export default function GameArena({
           </div>
           
           <div className="font-bold text-lg md:text-xl uppercase tracking-widest" style={{ color: '#D63031' }}>{p2Name}</div>
+
+          {/* Quit button */}
+          {onQuit && (
+            <button
+              onClick={() => setShowQuitConfirm(true)}
+              onTouchEnd={(e) => { e.preventDefault(); setShowQuitConfirm(true); }}
+              className="absolute -top-2 -right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all active:scale-90"
+              style={{ 
+                backgroundColor: '#636E72', 
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+              }}
+              title="Leave match"
+            >
+              <LogOut className="w-3.5 h-3.5 text-white" />
+            </button>
+          )}
         </div>
 
         {/* Power Bars */}
@@ -77,7 +101,7 @@ export default function GameArena({
               <PowerBar power={visualP1Power} maxPower={MAX_POWER} colorClass="p1" isLeft={true} />
               <div className="font-mono font-bold w-10 text-right text-sm" style={{ color: '#0984E3' }}>{Math.floor(visualP1Power)}</div>
             </div>
-            <SustainIndicator sustain={isP1 ? mySustain : 1.0} alignLeft={true} />
+            <SustainIndicator sustain={p1Sustain} alignLeft={true} />
           </div>
 
           <div className="w-2 md:w-4"></div>
@@ -87,7 +111,7 @@ export default function GameArena({
               <div className="font-mono font-bold w-10 text-left text-sm" style={{ color: '#D63031' }}>{Math.floor(visualP2Power)}</div>
               <PowerBar power={visualP2Power} maxPower={MAX_POWER} colorClass="p2" isLeft={false} />
             </div>
-            <SustainIndicator sustain={!isP1 ? mySustain : 1.0} alignLeft={false} />
+            <SustainIndicator sustain={p2Sustain} alignLeft={false} />
           </div>
         </div>
 
@@ -127,6 +151,36 @@ export default function GameArena({
 
       {/* Floor accent */}
       <div className="h-2 w-full" style={{ background: 'linear-gradient(90deg, #0984E3, #DFE6E9, #D63031)' }} />
+
+      {/* Quit Confirmation Modal */}
+      {showQuitConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+          <div className="rounded-2xl p-6 w-full max-w-xs text-center"
+            style={{ backgroundColor: '#FFFFFF', boxShadow: '0 8px 30px rgba(0,0,0,0.2)' }}>
+            <p className="text-lg font-bold mb-1" style={{ color: '#2D3436' }}>Leave Match?</p>
+            <p className="text-sm mb-5" style={{ color: '#B2BEC3' }}>You will forfeit this game.</p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowQuitConfirm(false)}
+                onTouchEnd={(e) => { e.preventDefault(); setShowQuitConfirm(false); }}
+                className="flex-1 py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95"
+                style={{ backgroundColor: '#F8F9FA', color: '#636E72', border: '1px solid #DFE6E9' }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => { setShowQuitConfirm(false); onQuit(); }}
+                onTouchEnd={(e) => { e.preventDefault(); setShowQuitConfirm(false); onQuit(); }}
+                className="flex-1 py-2.5 rounded-xl font-bold text-sm text-white transition-all active:scale-95"
+                style={{ backgroundColor: '#D63031', boxShadow: '0 4px 6px rgba(214,48,49,0.3)' }}
+              >
+                Leave
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

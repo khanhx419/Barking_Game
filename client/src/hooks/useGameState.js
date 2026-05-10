@@ -14,6 +14,10 @@ export function useGameState() {
     // Server state
     p1Power: 0,
     p2Power: 0,
+    p1Volume: 0,
+    p2Volume: 0,
+    p1Sustain: 1.0,
+    p2Sustain: 1.0,
     battleLinePos: 50,
     p1Scale: 1.0,
     p2Scale: 1.0,
@@ -26,6 +30,9 @@ export function useGameState() {
     // Errors
     error: null,
   });
+
+  // Public room list
+  const [publicRooms, setPublicRooms] = useState([]);
 
   // Event Handlers
   useEffect(() => {
@@ -82,6 +89,11 @@ export function useGameState() {
       setGameState(prev => ({ ...prev, error: message }));
     });
 
+    // Public room list updates
+    on('rooms:updated', (rooms) => {
+      setPublicRooms(rooms);
+    });
+
     return () => {
       off('room:created');
       off('room:updated');
@@ -92,6 +104,7 @@ export function useGameState() {
       off('game:end');
       off('player:disconnect');
       off('error');
+      off('rooms:updated');
     };
   }, [isConnected, socketId, on, off]);
 
@@ -111,6 +124,14 @@ export function useGameState() {
       emit('audio:power', powerData);
     }
   }, [emit, gameState.phase]);
+
+  const leaveRoom = useCallback(() => {
+    emit('player:leave');
+  }, [emit]);
+
+  const refreshRooms = useCallback(() => {
+    emit('rooms:list');
+  }, [emit]);
   
   const resetToLobby = useCallback(() => {
     setGameState(prev => ({
@@ -122,6 +143,10 @@ export function useGameState() {
       winner: null,
       p1Power: 0,
       p2Power: 0,
+      p1Volume: 0,
+      p2Volume: 0,
+      p1Sustain: 1.0,
+      p2Sustain: 1.0,
       battleLinePos: 50,
       p1Scale: 1.0,
       p2Scale: 1.0,
@@ -130,10 +155,13 @@ export function useGameState() {
 
   return {
     gameState,
+    publicRooms,
     isConnected,
     createRoom,
     joinRoom,
     sendPower,
+    leaveRoom,
+    refreshRooms,
     resetToLobby
   };
 }
