@@ -1,54 +1,92 @@
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { getDogById } from '../lib/dogBreeds';
+import { getDogImage, getDogById } from '../lib/dogBreeds';
 
-export default function DogAvatar({ scale, isLeft, colorTheme, isBarking, dogBreed }) {
+export default function DogAvatar({ scale, isLeft, colorTheme, isBarking, dogBreed, volume }) {
   const dog = getDogById(dogBreed);
+  const side = isLeft ? 'left' : 'right';
+  const imageSrc = getDogImage(dogBreed, side);
   
+  // Bark-shake intensity — scales with volume
+  const clampedVolume = Math.min(100, Math.max(0, volume || 0));
+  const shakeIntensity = clampedVolume > 10 ? Math.min(8, (clampedVolume / 100) * 8) : 0;
+  
+  const shakeAnimation = useMemo(() => {
+    if (shakeIntensity <= 0) return {};
+    const amp = shakeIntensity;
+    return {
+      x: [0, -amp, amp, -amp * 0.6, amp * 0.6, 0],
+      y: [0, -amp * 0.5, 0, -amp * 0.3, 0, 0],
+    };
+  }, [shakeIntensity]);
+
+  // Theme colors using the exact palette
+  const accentColor = colorTheme === 'blue' ? '#0984E3' : '#D63031';
+  const accentLight = colorTheme === 'blue' ? 'rgba(9, 132, 227, 0.15)' : 'rgba(214, 48, 49, 0.15)';
+  const accentBorder = colorTheme === 'blue' ? 'rgba(9, 132, 227, 0.3)' : 'rgba(214, 48, 49, 0.3)';
+
   return (
-    <div className={`relative z-10 flex ${isLeft ? 'justify-start' : 'justify-end'} items-end h-[400px]`}>
+    <div className={`relative z-10 flex ${isLeft ? 'justify-start' : 'justify-end'} items-end`}
+      style={{ height: '100%', maxHeight: '450px' }}
+    >
       <motion.div
         animate={{
           scale: scale,
-          y: isBarking ? [0, -10, 0] : 0,
+          ...shakeAnimation,
         }}
         transition={{
-          scale: { type: "spring", stiffness: 100, damping: 20 },
-          y: { duration: 0.1, repeat: isBarking ? Infinity : 0, repeatType: "reverse" }
+          scale: { type: "tween", duration: 0.2, ease: "easeOut" },
+          x: { duration: 0.08, repeat: shakeIntensity > 0 ? Infinity : 0, repeatType: "mirror" },
+          y: { duration: 0.1, repeat: shakeIntensity > 0 ? Infinity : 0, repeatType: "mirror" },
         }}
-        className={`origin-bottom relative ${isLeft ? 'origin-bottom-left' : 'origin-bottom-right'}`}
         style={{ transformOrigin: isLeft ? 'bottom left' : 'bottom right' }}
+        className="relative"
       >
-        {/* Glow behind dog */}
-        <div className={`absolute -inset-10 ${colorTheme === 'blue' ? 'bg-p1-500/20' : 'bg-p2-500/20'} rounded-full blur-3xl -z-10 mix-blend-screen opacity-50`}></div>
-        
-        <img 
-          src={dog.svg} 
-          alt={`${dog.name} Avatar`}
-          className="w-56 h-56 md:w-64 md:h-64 object-contain drop-shadow-2xl"
+        {/* Soft glow behind dog */}
+        <div 
+          className="absolute -inset-8 rounded-full blur-3xl -z-10"
           style={{ 
-            transform: isLeft ? 'scaleX(1)' : 'scaleX(-1)',
-            filter: colorTheme === 'blue' 
-              ? 'drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))' 
-              : 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.5))'
+            backgroundColor: accentLight,
+            opacity: 0.3 + (clampedVolume / 100) * 0.5
           }}
+        />
+        
+        {/* Dog PNG image */}
+        <img 
+          src={imageSrc}
+          alt={`${dog.name} Avatar`}
+          className="object-contain"
+          style={{ 
+            width: '280px',
+            height: '280px',
+            filter: `drop-shadow(0 4px 12px rgba(0,0,0,0.15))`,
+          }}
+          draggable={false}
         />
         
         {/* Barking text effect */}
         {isBarking && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: [0.8, 1, 0.8], scale: [1, 1.2, 1] }}
-            transition={{ repeat: Infinity, duration: 0.3 }}
-            className={`absolute top-5 ${isLeft ? '-right-8' : '-left-8'} ${colorTheme === 'blue' ? 'text-p1-400' : 'text-p2-400'} font-black text-2xl md:text-3xl z-20 select-none`}
+            initial={{ opacity: 0, scale: 0.5, y: 0 }}
+            animate={{ opacity: [0.7, 1, 0.7], scale: [0.9, 1.1, 0.9], y: [-5, -15, -5] }}
+            transition={{ repeat: Infinity, duration: 0.25 }}
+            className={`absolute top-2 ${isLeft ? '-right-6' : '-left-6'} font-black text-2xl md:text-3xl z-20 select-none`}
+            style={{ color: accentColor }}
           >
             {isLeft ? 'WOOF!' : 'BARK!'}
           </motion.div>
         )}
 
         {/* Name plate */}
-        <div className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full border ${
-          colorTheme === 'blue' ? 'bg-p1-600/30 border-p1-500/30 text-p1-400' : 'bg-p2-600/30 border-p2-500/30 text-p2-400'
-        }`}>
+        <div 
+          className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs font-bold tracking-wider uppercase px-3 py-1 rounded-full"
+          style={{
+            backgroundColor: accentLight,
+            border: `1px solid ${accentBorder}`,
+            color: accentColor,
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)',
+          }}
+        >
           {dog.name}
         </div>
       </motion.div>
