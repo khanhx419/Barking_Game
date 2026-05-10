@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Volume2, Users, Zap, RefreshCw } from 'lucide-react';
 import { DOG_BREEDS, getDogThumb } from '../lib/dogBreeds';
 
 export default function Lobby({ onCreateRoom, onJoinRoom, onSandbox, publicRooms, onRefreshRooms, error }) {
-  const [playerName, setPlayerName] = useState('');
+  const [playerName, setPlayerName] = useState(() => localStorage.getItem('barkPlayerName') || '');
   const [selectedDog, setSelectedDog] = useState('shiba');
   const [roomIdToJoin, setRoomIdToJoin] = useState('');
   const [showCodeInput, setShowCodeInput] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem('barkPlayerName', playerName);
+  }, [playerName]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 overflow-y-auto"
@@ -124,6 +128,42 @@ export default function Lobby({ onCreateRoom, onJoinRoom, onSandbox, publicRooms
               Create Game
             </button>
 
+            {!showCodeInput ? (
+              <button
+                disabled={!playerName.trim()}
+                onClick={() => setShowCodeInput(true)}
+                onTouchEnd={(e) => { if (playerName.trim()) { e.preventDefault(); setShowCodeInput(true); } }}
+                className="w-full px-4 py-3.5 rounded-xl font-bold text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm active:scale-95"
+                style={{ 
+                  backgroundColor: '#00b894',
+                  boxShadow: '0 4px 6px -1px rgba(0, 184, 148, 0.3)',
+                  WebkitAppearance: 'none',
+                }}
+              >
+                Join with Code
+              </button>
+            ) : (
+              <div className="flex gap-2 w-full">
+                <input
+                  type="text" maxLength="6"
+                  value={roomIdToJoin}
+                  onChange={(e) => setRoomIdToJoin(e.target.value.toUpperCase())}
+                  placeholder="ROOM CODE"
+                  className="flex-1 rounded-xl px-3 py-3 font-mono tracking-widest text-center uppercase text-sm focus:outline-none focus:ring-2 transition-all"
+                  style={{ backgroundColor: '#F8F9FA', border: '1px solid #DFE6E9', color: '#2D3436' }}
+                />
+                <button
+                  disabled={!playerName.trim() || !roomIdToJoin.trim() || roomIdToJoin.length < 5}
+                  onClick={() => onJoinRoom(roomIdToJoin, playerName, selectedDog)}
+                  onTouchEnd={(e) => { if (playerName.trim() && roomIdToJoin.trim() && roomIdToJoin.length >= 5) { e.preventDefault(); onJoinRoom(roomIdToJoin, playerName, selectedDog); } }}
+                  className="px-4 py-3 rounded-xl font-bold text-sm text-white disabled:opacity-50 transition-all active:scale-95"
+                  style={{ backgroundColor: '#00b894', boxShadow: '0 4px 6px -1px rgba(0, 184, 148, 0.4)', WebkitAppearance: 'none' }}
+                >
+                  Join
+                </button>
+              </div>
+            )}
+
             <button
               disabled={!playerName.trim()}
               onClick={() => onSandbox(playerName, selectedDog)}
@@ -193,37 +233,7 @@ export default function Lobby({ onCreateRoom, onJoinRoom, onSandbox, publicRooms
               )}
             </div>
 
-            {/* Join by Code toggle */}
-            {!showCodeInput ? (
-              <button
-                onClick={() => setShowCodeInput(true)}
-                onTouchEnd={(e) => { e.preventDefault(); setShowCodeInput(true); }}
-                className="w-full text-center text-xs font-bold mt-2 py-1 transition-all active:scale-95"
-                style={{ color: '#B2BEC3' }}
-              >
-                Or join with a room code →
-              </button>
-            ) : (
-              <div className="mt-2 flex gap-2">
-                <input
-                  type="text" maxLength="6"
-                  value={roomIdToJoin}
-                  onChange={(e) => setRoomIdToJoin(e.target.value.toUpperCase())}
-                  placeholder="ROOM CODE"
-                  className="flex-1 rounded-xl px-3 py-2.5 font-mono tracking-widest text-center uppercase text-sm focus:outline-none focus:ring-2 transition-all"
-                  style={{ backgroundColor: '#F8F9FA', border: '1px solid #DFE6E9', color: '#2D3436' }}
-                />
-                <button
-                  disabled={!playerName.trim() || !roomIdToJoin.trim() || roomIdToJoin.length < 5}
-                  onClick={() => onJoinRoom(roomIdToJoin, playerName, selectedDog)}
-                  onTouchEnd={(e) => { if (playerName.trim() && roomIdToJoin.trim() && roomIdToJoin.length >= 5) { e.preventDefault(); onJoinRoom(roomIdToJoin, playerName, selectedDog); } }}
-                  className="px-4 py-2.5 rounded-xl font-bold text-xs text-white disabled:opacity-50 transition-all active:scale-95"
-                  style={{ backgroundColor: '#D63031', boxShadow: '0 2px 4px rgba(214,48,49,0.25)', WebkitAppearance: 'none' }}
-                >
-                  Join
-                </button>
-              </div>
-            )}
+
           </div>
         </div>
       </motion.div>

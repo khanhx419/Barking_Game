@@ -237,10 +237,18 @@ function App() {
             {gameState.roomId}
           </div>
           <p className="text-sm mb-6" style={{ color: '#B2BEC3' }}>Share this code with your opponent</p>
-          <div className="flex items-center gap-3" style={{ color: '#B2BEC3' }}>
+          <div className="flex items-center gap-3 mb-10" style={{ color: '#B2BEC3' }}>
             <div className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#DFE6E9', borderTopColor: 'transparent' }}></div>
             Waiting for opponent...
           </div>
+          <button 
+            onClick={handleQuit}
+            onTouchEnd={(e) => { e.preventDefault(); handleQuit(); }}
+            className="px-6 py-3 rounded-xl font-bold text-sm text-white transition-all active:scale-95"
+            style={{ backgroundColor: '#D63031', boxShadow: '0 4px 6px -1px rgba(214, 48, 49, 0.3)' }}
+          >
+            Cancel & Leave
+          </button>
         </div>
       )}
 

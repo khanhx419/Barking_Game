@@ -28,7 +28,14 @@ export function useAudioAnalyser(isActive, onPowerUpdate) {
     if (audioContextRef.current && audioContextRef.current.state !== 'closed') return;
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+      const stream = await navigator.mediaDevices.getUserMedia({ 
+        audio: {
+          echoCancellation: false,
+          autoGainControl: false,
+          noiseSuppression: false,
+        }, 
+        video: false 
+      });
       streamRef.current = stream;
       
       const AudioContext = window.AudioContext || window.webkitAudioContext;
